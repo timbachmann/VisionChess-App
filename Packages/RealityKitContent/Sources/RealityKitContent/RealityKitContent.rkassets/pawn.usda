@@ -1,0 +1,147 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (448.0.16.0.3)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    def Xform "Transform" (
+        active = true
+    )
+    {
+        reorder nameChildren = ["Anchoring", "Sphere", "pawn_black", "Pivot", "Cone"]
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def RealityKitComponent "Anchoring"
+        {
+            uniform token info:id = "RealityKit.Anchoring"
+
+            def RealityKitStruct "descriptor"
+            {
+                token type = "Object"
+                asset url = @pawn_black.referenceobject@
+            }
+        }
+
+        def Sphere "Sphere" (
+            active = true
+            prepend apiSchemas = ["MaterialBindingAPI"]
+            customData = {
+                float3 rotationEulerHint = (0, 0, 0)
+            }
+        )
+        {
+            rel material:binding = </Root/Transform/Sphere/DefaultMaterial>
+            double radius = 0.1
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (0.049999993, 0.049999993, 0.049999993)
+            float3 xformOp:translate = (0.02, 0.03, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def Material "DefaultMaterial"
+            {
+                token outputs:mtlx:surface
+                token outputs:realitykit:vertex
+                token outputs:surface.connect = </Root/Transform/Sphere/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+
+                def Shader "DefaultSurfaceShader"
+                {
+                    uniform token info:id = "UsdPreviewSurface"
+                    color3f inputs:diffuseColor = (1, 1, 1)
+                    float inputs:roughness = 0.75
+                    token outputs:surface
+                }
+            }
+        }
+
+        def "pawn_black" (
+            active = true
+            references = @Objects/pawn_black.usdz@
+        )
+        {
+            float3 xformOp:scale = (0.99, 0.99, 0.99)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            over "Materials"
+            {
+                reorder nameChildren = ["DefaultMaterial", "main"]
+                over "main" (
+                    active = false
+                )
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                }
+
+                def Material "DefaultMaterial"
+                {
+                    token outputs:mtlx:surface
+                    token outputs:realitykit:vertex
+                    token outputs:surface.connect = </Root/Transform/pawn_black/Materials/DefaultMaterial/DefaultSurfaceShader.outputs:surface>
+                    float2 ui:nodegraph:node:pos = (215.75, 104.5)
+                    int ui:nodegraph:node:stackingOrder = 1
+
+                    def Shader "DefaultSurfaceShader"
+                    {
+                        uniform token info:id = "UsdPreviewSurface"
+                        color3f inputs:diffuseColor = (0.6914453, 0.71283025, 0.71283025) (
+                            colorSpace = "srgb_texture"
+                        )
+                        float inputs:roughness = 0.75
+                        token outputs:surface
+                    }
+                }
+            }
+
+            over "Geom"
+            {
+                over "mesh" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </Root/Transform/pawn_black/Materials/DefaultMaterial> (
+                        bindMaterialAs = "weakerThanDescendants"
+                    )
+                }
+            }
+        }
+
+        def Xform "Pivot" (
+            active = true
+        )
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0.03, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+    }
+
+    def RealityKitTimeline "Timeline"
+    {
+        reorder nameChildren = ["Track", "Track2"]
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "Orbit"
+            {
+                string actionKind = "orbit"
+                float3 axis = (0, 0.923084, -0.38459826)
+                int blendLayer = 300
+                double duration = 8
+                uniform token info:id = "A56C8B20-B4C7-4D3C-96E0-3A554C8E3A83"
+                bool orientToPath = 1
+                rel pivotEntity = </Root/Transform/Pivot>
+                float revolutions = 2
+                double startTime = 0
+                rel target = </Root/Transform/Sphere>
+            }
+        }
+    }
+}
+

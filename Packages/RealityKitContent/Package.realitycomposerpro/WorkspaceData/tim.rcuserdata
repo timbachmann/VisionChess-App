@@ -1,0 +1,38 @@
+{
+  "advancedEditorSelectedIdentifier" : "ProjectBrowser",
+  "openSceneRelativePaths" : [
+    "CardSet_assembly.usda"
+  ],
+  "recentIdentifiers" : {
+
+  },
+  "sceneCameraHistory" : {
+    "4A95D56B-FDC2-49AB-A7DE-0197B8A8F925" : [
+      {
+        "date" : 758462897.368397,
+        "title" : "Untitled",
+        "transform" : [
+          0.2807479,
+          -2.3511504e-10,
+          -0.9597815,
+          0,
+          -0.8950062,
+          0.36114338,
+          -0.26180035,
+          0,
+          0.34661874,
+          0.9325103,
+          0.10139026,
+          0,
+          0.89645994,
+          2.4117515,
+          0.2622256,
+          1
+        ]
+      }
+    ]
+  },
+  "sceneViewportBackgroundColors" : {
+
+  }
+}
